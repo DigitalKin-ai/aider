@@ -1808,12 +1808,12 @@ class Coder:
             self.check_added_files()
             return True
 
-        if not self.io.confirm_ask(
-            "Allow edits to file that has not been added to the chat?",
-            subject=path,
-        ):
-            self.io.tool_output(f"Skipping edits to {path}")
-            return
+        #if not self.io.confirm_ask(
+        #    "Allow edits to file that has not been added to the chat?",
+        #    subject=path,
+        #):
+        self.io.tool_output(f"Skipping edits to {path}")
+        return
 
         if need_to_add:
             self.repo.repo.git.add(full_path)
