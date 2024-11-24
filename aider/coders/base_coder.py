@@ -962,7 +962,7 @@ class Coder:
         if self.chat_language:
             language = self.chat_language
         else:
-            language = "in the same language they are using"
+            language = "the same language they are using"
 
         prompt = prompt.format(
             fence=self.fence,
@@ -1245,10 +1245,19 @@ class Coder:
         else:
             content = ""
 
-        try:
-            self.reply_completed()
-        except KeyboardInterrupt:
-            interrupted = True
+        if not interrupted:
+            add_rel_files_message = self.check_for_file_mentions(content)
+            if add_rel_files_message:
+                if self.reflected_message:
+                    self.reflected_message += "\n\n" + add_rel_files_message
+                else:
+                    self.reflected_message = add_rel_files_message
+                return
+
+            try:
+                self.reply_completed()
+            except KeyboardInterrupt:
+                interrupted = True
 
         if interrupted:
             content += "\n^C KeyboardInterrupt"
@@ -1298,13 +1307,6 @@ class Coder:
                     self.reflected_message = test_errors
                     self.update_cur_messages()
                     return
-
-        add_rel_files_message = self.check_for_file_mentions(content)
-        if add_rel_files_message:
-            if self.reflected_message:
-                self.reflected_message += "\n\n" + add_rel_files_message
-            else:
-                self.reflected_message = add_rel_files_message
 
     def reply_completed(self):
         pass
@@ -2059,9 +2061,10 @@ class Coder:
             if output:
                 accumulated_output += f"Output from {command}\n{output}\n"
 
-        if accumulated_output.strip() and not self.io.confirm_ask(
+        if accumulated_output.strip() and self.io.confirm_ask(
             "Add command output to the chat?", allow_never=True
         ):
-            accumulated_output = ""
-
-        return accumulated_output
+            num_lines = len(accumulated_output.strip().splitlines())
+            line_plural = "line" if num_lines == 1 else "lines"
+            self.io.tool_output(f"Added {num_lines} {line_plural} of output to the chat.")
+            return accumulated_output

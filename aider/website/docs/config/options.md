@@ -66,14 +66,15 @@ usage: aider [-h] [--openai-api-key] [--anthropic-api-key] [--model]
              [--analytics-disable] [--file] [--read] [--vim]
              [--chat-language] [--version] [--just-check-update]
              [--check-update | --no-check-update]
+             [--show-release-notes | --no-show-release-notes]
              [--install-main-branch] [--upgrade] [--apply]
              [--apply-clipboard-edits] [--yes-always] [-v]
              [--show-repo-map] [--show-prompts] [--exit] [--message]
              [--message-file] [--load] [--encoding] [-c]
              [--gui | --no-gui | --browser | --no-browser]
              [--suggest-shell-commands | --no-suggest-shell-commands]
-             [--fancy-input | --no-fancy-input] [--voice-format]
-             [--voice-language]
+             [--fancy-input | --no-fancy-input] [--editor]
+             [--voice-format] [--voice-language]
 
 ```
 
@@ -510,8 +511,7 @@ Environment variable: `AIDER_TEST`
 ## Analytics:
 
 ### `--analytics`
-Enable/disable analytics for one session (default: False)  
-Default: False  
+Enable/disable analytics for current session (default: random)  
 Environment variable: `AIDER_ANALYTICS`  
 Aliases:
   - `--analytics`
@@ -560,6 +560,13 @@ Environment variable: `AIDER_CHECK_UPDATE`
 Aliases:
   - `--check-update`
   - `--no-check-update`
+
+### `--show-release-notes`
+Show release notes on first run of new version (default: None, ask user)  
+Environment variable: `AIDER_SHOW_RELEASE_NOTES`  
+Aliases:
+  - `--show-release-notes`
+  - `--no-show-release-notes`
 
 ### `--install-main-branch`
 Install the latest version from the main branch  
@@ -665,6 +672,10 @@ Environment variable: `AIDER_FANCY_INPUT`
 Aliases:
   - `--fancy-input`
   - `--no-fancy-input`
+
+### `--editor VALUE`
+Specify which editor to use for the /editor command  
+Environment variable: `AIDER_EDITOR`  
 
 ## Voice Settings:
 

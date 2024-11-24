@@ -198,6 +198,7 @@ class InputOutput:
         editingmode=EditingMode.EMACS,
         fancy_input=True,
     ):
+        self.placeholder = None
         self.never_prompts = set()
         self.editingmode = editingmode
         no_color = os.environ.get("NO_COLOR")
@@ -427,8 +428,13 @@ class InputOutput:
 
             try:
                 if self.prompt_session:
+                    # Use placeholder if set, then clear it
+                    default = self.placeholder or ""
+                    self.placeholder = None
+
                     line = self.prompt_session.prompt(
                         show,
+                        default=default,
                         completer=completer_instance,
                         reserve_space_for_menu=4,
                         complete_style=CompleteStyle.MULTI_COLUMN,
@@ -441,13 +447,38 @@ class InputOutput:
                 self.tool_error(str(err))
                 return ""
 
-            if line and line[0] == "{" and not multiline_input:
-                multiline_input = True
-                inp += line[1:] + "\n"
+            if line.strip("\r\n") and not multiline_input:
+                stripped = line.strip("\r\n")
+                if stripped == "{":
+                    multiline_input = True
+                    multiline_tag = None
+                    inp += ""
+                elif stripped[0] == "{":
+                    # Extract tag if it exists (only alphanumeric chars)
+                    tag = "".join(c for c in stripped[1:] if c.isalnum())
+                    if stripped == "{" + tag:
+                        multiline_input = True
+                        multiline_tag = tag
+                        inp += ""
+                    else:
+                        inp = line
+                        break
+                else:
+                    inp = line
+                    break
                 continue
-            elif line and line[-1] == "}" and multiline_input:
-                inp += line[:-1] + "\n"
-                break
+            elif multiline_input and line.strip():
+                if multiline_tag:
+                    # Check if line is exactly "tag}"
+                    if line.strip("\r\n") == f"{multiline_tag}}}":
+                        break
+                    else:
+                        inp += line + "\n"
+                # Check if line is exactly "}"
+                elif line.strip("\r\n") == "}":
+                    break
+                else:
+                    inp += line + "\n"
             elif multiline_input:
                 inp += line + "\n"
             else:
@@ -463,8 +494,8 @@ class InputOutput:
             return
         FileHistory(self.input_history_file).append_string(inp)
         # Also add to the in-memory history if it exists
-        if hasattr(self, "session") and hasattr(self.session, "history"):
-            self.session.history.append_string(inp)
+        if self.prompt_session and self.prompt_session.history:
+            self.prompt_session.history.append_string(inp)
 
     def get_input_history(self):
         if not self.input_history_file:
@@ -481,14 +512,17 @@ class InputOutput:
             log_file.write(f"{role.upper()} {timestamp}\n")
             log_file.write(content + "\n")
 
+    def display_user_input(self, inp):
+        if self.pretty and self.user_input_color:
+            style = dict(style=self.user_input_color)
+        else:
+            style = dict()
+
+        self.console.print(Text(inp), **style)
+
     def user_input(self, inp, log_only=True):
         if not log_only:
-            if self.pretty and self.user_input_color:
-                style = dict(style=self.user_input_color)
-            else:
-                style = dict()
-
-            self.console.print(Text(inp), **style)
+            self.display_user_input(inp)
 
         prefix = "####"
         if inp:
@@ -508,11 +542,11 @@ class InputOutput:
         hist = "\n" + content.strip() + "\n\n"
         self.append_chat_history(hist)
 
-    def offer_url(self, url, prompt="Open URL for more info?"):
+    def offer_url(self, url, prompt="Open URL for more info?", allow_never=True):
         """Offer to open a URL in the browser, returns True if opened."""
         if url in self.never_prompts:
             return False
-        if self.confirm_ask(prompt, subject=url, allow_never=True):
+        if self.confirm_ask(prompt, subject=url, allow_never=allow_never):
             webbrowser.open(url)
             return True
         return False
@@ -710,6 +744,10 @@ class InputOutput:
             show_resp = Text(message or "<no response>")
 
         self.console.print(show_resp)
+
+    def set_placeholder(self, placeholder):
+        """Set a one-time placeholder text for the next input prompt."""
+        self.placeholder = placeholder
 
     def print(self, message=""):
         print(message)
