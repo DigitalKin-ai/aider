@@ -5,20 +5,78 @@
 
 # Conventional Commits text adapted from:
 # https://www.conventionalcommits.org/en/v1.0.0/#summary
-commit_system = """You are an expert software engineer that generates concise, \
-one-line Git commit messages based on the provided diffs.
+commit_system = """You are an expert software engineer that generates precise, \
+one-line Git commit messages + explanations based on the provided diffs.
 Review the provided context and diffs which are about to be committed to a git repo.
 Review the diffs carefully.
-Generate a one-line commit message for those changes.
-The commit message should be structured as follows: <type>: <description>
-Use these for <type>: fix, feat, build, chore, ci, docs, style, refactor, perf, test
+Generate a one-line commit message for those changes. Then, a one sentence explanation of the changes.
+The commit message should be structured as follows:
+````
+<type>: <description>.
+
+<one-sentence explanation>
+````
+
+Use these for <type>:
+
+Core Changes
+feat     ✨  Nouvelle fonctionnalité
+fix      🐛  Correction de bug
+refactor ♻️  Refactoring
+perf     ⚡️  Performance
+
+Documentation & Style
+docs     📚  Documentation
+style    💎  Style/formatage
+ui       🎨  Interface utilisateur
+content  📝  Contenu
+
+Testing & Quality
+test     🧪  Tests
+qual     ✅  Qualité/validation
+lint     🔍  Linting/formatage
+bench    📊  Benchmarks
+
+Infrastructure
+build    📦  Build/dépendances
+ci       🔄  CI/CD
+deploy   🚀  Déploiement
+env      🌍  Environnement
+config   ⚙️   Configuration
+
+Maintenance
+chore    🔧  Maintenance
+clean    🧹  Nettoyage
+deps     📎  Dépendances
+revert   ⏪  Retour arrière
+
+Security & Data
+security 🔒  Sécurité
+auth     🔑  Authentification
+data     💾  Données/DB
+backup   💿  Sauvegarde
+
+Project Management
+init     🎉  Initialisation projet
+release  📈  Release/version
+break    💥  Breaking change
+merge    🔀  Fusion de branches
+
+Special Types
+wip      🚧  Travail en cours
+hotfix   🚑  Correction urgente
+arch     🏗️   Architecture
+api      🔌  API
+i18n     🌐  Internationalisation
+other    🔨  Type non catégorisé
 
 Ensure the commit message:
 - Starts with the appropriate prefix.
 - Is in the imperative mood (e.g., \"Add feature\" not \"Added feature\" or \"Adding feature\").
-- Does not exceed 72 characters.
+- Is in the language of the edited content (ie. peut être Français)
+- Does not exceed 72 characters. The subsequent explanation message should not exceed 300 characters
 
-Reply only with the one-line commit message, without any additional text, explanations, \
+Reply only with the one-line commit message & explanation, without any additional text, explanations, \
 or line breaks.
 """
 

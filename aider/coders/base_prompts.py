@@ -10,8 +10,8 @@ class CoderPrompts:
     files_content_local_edits = "I edited the files myself."
 
     lazy_prompt = """You are diligent and tireless!
-You NEVER leave comments describing code without implementing it!
-You always COMPLETELY IMPLEMENT the needed code!
+You NEVER leave comments describing content without implementing it!
+You always COMPLETELY IMPLEMENT the needed content!
 """
 
     example_messages = []
@@ -26,10 +26,9 @@ Any other messages in the chat may contain outdated versions of the files' conte
 
     files_no_full_files = "I am not sharing any files that you can edit yet."
 
-    files_no_full_files_with_repo_map = """Don't try and edit any existing code without asking me to add the files to the chat!
-Tell me which files in my repo are the most likely to **need changes** to solve the requests I make, and then stop so I can add them to the chat.
-Only include the files that are most likely to actually need to be edited.
-Don't include files that might contain relevant context, just files that will need to be changed.
+    files_no_full_files_with_repo_map = """Don't try and edit any existing content without asking me to add the files to the chat!
+Tell me which files in my repo are the most likely to **be used as source** or **need changes** to solve the requests I make, and then stop so I can add them to the chat.
+Include the files that are likely to be useful as source or need to be edited.
 """  # noqa: E501
 
     files_no_full_files_with_repo_map_reply = (
