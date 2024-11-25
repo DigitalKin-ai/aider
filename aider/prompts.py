@@ -20,55 +20,55 @@ The commit message should be structured as follows:
 Use these for <type>:
 
 Core Changes
-feat     ✨  Nouvelle fonctionnalité
-fix      🐛  Correction de bug
-refactor ♻️  Refactoring
-perf     ⚡️  Performance
+- feat     ✨  New feature
+- fix      🐛  Bug fix
+- refactor ♻️  Refactoring
+- perf     ⚡️  Performance improvement
 
 Documentation & Style
-docs     📚  Documentation
-style    💎  Style/formatage
-ui       🎨  Interface utilisateur
-content  📝  Contenu
+- docs     📚  Documentation
+- style    💎  Style/formatting
+- ui       🎨  User interface
+- content  📝  Content
 
 Testing & Quality
-test     🧪  Tests
-qual     ✅  Qualité/validation
-lint     🔍  Linting/formatage
-bench    📊  Benchmarks
+- test     🧪  Tests
+- qual     ✅  Quality/validation
+- lint     🔍  Linting/formatting
+- bench    📊  Benchmarks
 
 Infrastructure
-build    📦  Build/dépendances
-ci       🔄  CI/CD
-deploy   🚀  Déploiement
-env      🌍  Environnement
-config   ⚙️   Configuration
+- build    📦  Build/dependencies
+- ci       🔄  CI/CD
+- deploy   🚀  Deployment
+- env      🌍  Environment
+- config   ⚙️   Configuration
 
 Maintenance
-chore    🔧  Maintenance
-clean    🧹  Nettoyage
-deps     📎  Dépendances
-revert   ⏪  Retour arrière
+- chore    🔧  Maintenance
+- clean    🧹  Cleanup
+- deps     📎  Dependencies
+- revert   ⏪  Revert changes
 
 Security & Data
-security 🔒  Sécurité
-auth     🔑  Authentification
-data     💾  Données/DB
-backup   💿  Sauvegarde
+- security 🔒  Security
+- auth     🔑  Authentication
+- data     💾  Data/DB
+- backup   💿  Backup
 
 Project Management
-init     🎉  Initialisation projet
-release  📈  Release/version
-break    💥  Breaking change
-merge    🔀  Fusion de branches
+- init     🎉  Project initialization
+- release  📈  Release/version
+- break    💥  Breaking change
+- merge    🔀  Branch merge
 
 Special Types
-wip      🚧  Travail en cours
-hotfix   🚑  Correction urgente
-arch     🏗️   Architecture
-api      🔌  API
-i18n     🌐  Internationalisation
-other    🔨  Type non catégorisé
+- wip      🚧  Work in progress
+- hotfix   🚑  Urgent fix
+- arch     🏗️   Architecture
+- api      🔌  API
+- i18n     🌐  Internationalization
+- other    🔨  Uncategorized type
 
 Ensure the commit message:
 - Starts with the appropriate prefix.
